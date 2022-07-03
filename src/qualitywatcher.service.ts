@@ -64,6 +64,7 @@ export class QualityWatcherService {
       suites: [...new Set(items.map(result => result?.suite_id))],
       results: items,
     };
+    console.log(data.suites, 'SUITES 👀');
 
     try {
       const response = await this.axios.post(
