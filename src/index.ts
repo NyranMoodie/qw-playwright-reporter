@@ -3,8 +3,8 @@ import {
   QualityWatcherPayload,
   QualityWatcherResult,
 } from './qualitywatcher.interface';
-const REGEX_SUITE_AND_TEST_ID = /\bS(\d+)C(\d+)\b/g;
 import { QualityWatcherService } from './qualitywatcher.service';
+const REGEX_SUITE_AND_TEST_ID = /\bS(\d+)C(\d+)\b/g;
 class QualityWatcherReporter implements Reporter {
   private qualityWatcherService!: QualityWatcherService;
   private results: QualityWatcherResult[] = [];
