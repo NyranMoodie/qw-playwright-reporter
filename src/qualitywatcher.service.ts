@@ -15,24 +15,26 @@ export class QualityWatcherService {
 
   constructor(options: QualityWatcherPayload) {
     if (!options.apiKey) {
-      throw new Error('[API KEY] is missing. Please, provide it in the config');
+      throw new Error('[apiKey] is missing. Please, provide it in the config');
     }
     if (!options.projectId) {
       throw new Error(
-        '[PROJECT ID] is missed. Please, provide it in the config'
+        '[projectId] is missed. Please, provide it in the config'
       );
     }
     if (!options.testRunName) {
-      throw new Error('[Test Run] is missed. Please, provide it in the config');
+      throw new Error(
+        '[testRunName] is missed. Please, provide it in the config'
+      );
     }
     if (!options.description) {
       throw new Error(
-        '[DESCRIPTION] is missed. Please, provide it in the config'
+        '[description] is missed. Please, provide it in the config'
       );
     }
     if (!options.includeAllCases) {
       throw new Error(
-        '[INCLUDE ALL CASES] is missing. Please, provide it in the config'
+        '[includeAllCases] is missing. Please, provide it in the config'
       );
     }
 
@@ -53,6 +55,7 @@ export class QualityWatcherService {
   }
 
   async createRun(items: QualityWatcherResult[]): Promise<string> {
+    console.log(items);
     const data = {
       projectId: this.projectId,
       testRunName: this.testRunName,
