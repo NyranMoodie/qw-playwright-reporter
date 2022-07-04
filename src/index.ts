@@ -37,8 +37,16 @@ class QualityWatcherReporter implements Reporter {
       );
     }
     console.log(
-      'Length of failed tests',
+      '# of passed tests',
+      this.results.filter(item => item.status === 'passed').length
+    );
+    console.log(
+      '# of failed tests',
       this.results.filter(item => item.status === 'failed').length
+    );
+    console.log(
+      '# of skipped tests',
+      this.results.filter(item => item.status === 'skipped').length
     );
   }
 }

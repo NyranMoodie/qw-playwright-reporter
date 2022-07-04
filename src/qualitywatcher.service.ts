@@ -1,5 +1,5 @@
 import axios, { Axios } from 'axios';
-import { bold, green } from 'picocolors';
+import { bold, green, red } from 'picocolors';
 import {
   QualityWatcherPayload,
   QualityWatcherResult,
@@ -55,17 +55,16 @@ export class QualityWatcherService {
   }
 
   async createRun(items: QualityWatcherResult[]): Promise<string> {
-    console.log(items);
     const data = {
       projectId: this.projectId,
       testRunName: this.testRunName,
       description: this.description,
       includeAllCases: this.includeAllCases,
-      suites: [...new Set(items.map(result => result?.suite_id))],
+      suites: items
+        .map(item => item.suite_id)
+        .filter((value, index, self) => self.indexOf(value) === index),
       results: items,
     };
-    console.log(data.suites, 'SUITES 👀');
-
     try {
       const response = await this.axios.post(
         '/add-automated-test-execution',
@@ -76,33 +75,11 @@ export class QualityWatcherService {
         `${bold(green(`✅ Test results have been posted to QualityWatcher`))}`
       );
       console.log(`${bold(green('👇 Check out the test result'))}`);
+      console.log(`${bold(green(`${response.data.link}`))}`);
       return response.data;
     } catch (error) {
+      `${bold(red(`There was an error publishing results`))}`;
       console.log(error);
-      //   if (isAxiosError(error)) {
-      //     console.error(`Config: ${inspect(error.config)}`);
-
-      //     if (error.response) {
-      //       throw new Error(
-      //         `\nStatus: ${error.response.status} \nHeaders: ${inspect(
-      //           error.response.headers
-      //         )} \nData: ${inspect(error.response.data)}`
-      //       );
-      //     } else if (error.request) {
-      //       throw new Error(
-      //         `The request was made but no response was received. \n Error: ${inspect(
-      //           error.toJSON()
-      //         )}`
-      //       );
-      //     } else {
-      //       throw new Error(
-      //         `Something happened in setting up the request that triggered an Error\n : ${inspect(
-      //           error.message
-      //         )}`
-      //       );
-      //     }
-      //   }
-
       throw new Error(`\nUnknown error: ${error}`);
     }
   }
