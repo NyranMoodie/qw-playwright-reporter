@@ -78,7 +78,7 @@ export class QualityWatcherService {
       console.log(`${bold(green(`${response.data.link}`))}`);
       return response.data;
     } catch (error) {
-      `${bold(red(`There was an error publishing results`))}`;
+      console.log(`${bold(red(`There was an error publishing results`))}`);
       console.log(error);
       throw new Error(`\nUnknown error: ${error}`);
     }
